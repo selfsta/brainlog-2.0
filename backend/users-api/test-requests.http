@@ -1,0 +1,77 @@
+### CREATE five documents.
+POST http://localhost:3000/register HTTP/1.1
+content-type: application/json
+
+{
+    "email": "user@email.com",
+    "password": "cc8_dj4JAS"
+}
+
+
+### CREATE 2
+POST http://localhost:3000/users HTTP/1.1
+content-type: application/json
+
+{
+    "email": "girl@email.com",
+    "password": "mypassword123"
+}
+
+### CREATE 3
+POST http://localhost:3000/users HTTP/1.1
+content-type: application/json
+
+{
+    "email": "person@email.com",
+    "password": "193h35b32jk"
+}
+
+### CREATE 4
+POST http://localhost:3000/users HTTP/1.1
+content-type: application/json
+
+{
+    "email": "boy@email.com",
+    "password": "cc8_dj4JAS"
+}
+
+### CREATE 5
+POST http://localhost:3000/users HTTP/1.1
+content-type: application/json
+
+{
+    "email": "girl@email.com",
+    "password": "mypassword123"
+}
+
+
+### RETRIEVE all documents.
+GET http://localhost:3000/users HTTP/1.1
+
+
+
+### RETRIEVE a document by its ID.
+### Replace the following ID with one that exists in the collection.
+GET http://localhost:3000/users/64d3b1398146c0d744a4b95b HTTP/1.1
+
+
+### UPDATE one document's year, by ID.
+### Replace the ID in the following request with one that exists
+### and update the year:
+PUT http://localhost:3000/users/64d3afbb0816f78a7cedf90a HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Sorry to Bother You",
+    "year": 2016,
+    "language": "English"
+}
+
+### DELETE by ID (responds with nothing if successful):
+DELETE http://localhost:3000/users/64d3afbb0816f78a7cedf90a HTTP/1.1
+
+
+
+### RETRIEVE all documents (responds with 4 or the original 5):
+GET http://localhost:3000/users HTTP/1.1
+

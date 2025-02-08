@@ -1,0 +1,4 @@
+backend/users-api/.env
+backend/users-api/node_modules
+frontend/.env
+frontend/node_modules
