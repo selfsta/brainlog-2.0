@@ -1,11 +1,13 @@
 import 'dotenv/config';
-import express from 'express';
+import express, { json } from 'express';
 import asyncHandler from 'express-async-handler';
 import * as users from './users-model.mjs';
 import jwt from 'jsonwebtoken';
-
+import bcrypt from 'bcryptjs'
 const app = express();
 app.use(express.json());
+
+
 
 const PORT = process.env.PORT;
 const KEY = process.env.JWT_SECRET
@@ -15,10 +17,12 @@ const KEY = process.env.JWT_SECRET
 
 // CREATE controller ******************************************
 app.post ('/users', asyncHandler(async (req,res) => { 
-    console.log(req.body)
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(req.body.password, salt)
+
     const user = await users.createUser(
         req.body.email, 
-        req.body.password
+        hashedPassword
         )
     res.send(user);
 }));
@@ -38,27 +42,21 @@ function userFilter(req) {
 
 // RETRIEVE ****************************************************
 
-// Retrieve user by login   
-app.post('/auth', (req,res) => { 
-    const email = req.body.email
-    users.findByEmail(email).then(user => {
-        if (user != null) {
-            if (req.body.password == user.password) {
-                const token = jwt.sign({
-                    id: user._id,
-                    email: user.email,
-                }, KEY)
-                res.status(200).json({token});
-            }
-        } else {
-            res.status(404).json({ Error: 'Requested user could not be found.' });
-        }         
-     })
-    .catch(error => {
-        console.log(error);
-        res.status(400).json({ Error: 'There was a problem retreiving user information.' });
-    });
-});
+// Login   
+app.post('/auth', asyncHandler( async (req,res) => { 
+    const { email, password } = req.body
+    const user =  await users.findByEmail(email)
+
+    if(user != null && await bcrypt.compare(password, user.password)) {
+        const token = jwt.sign({
+            id: user._id,
+            email: user.email,
+        }, KEY)
+        res.status(200).json({token});
+    } else {
+        res.status(404).json({ Error: 'Requested user could not be found.' });
+    }         
+}));
 
 
 
