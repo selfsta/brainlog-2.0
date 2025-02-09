@@ -48,8 +48,7 @@ const findByEmail = async (email) => {
 
 // Retrieve based on a filter and return a promise.
 const findUsers = async (filter) => {
-    const query = User.findOne(filter);
-    return query.exec();
+    return await User.findOne(filter);
 }
 
 // Retrieve based on the ID and return a promise.

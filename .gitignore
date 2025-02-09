@@ -1,6 +1,8 @@
 backend/users-api/.env
 backend/users-api/node_modules
-frontend/.env
-frontend/node_modules
+backend/users-api/test-requests.http
 backend/entries-api/.env
 backend/entries-api/node_modules/
+backend/entries-api/test-requests.http
+frontend/.env
+frontend/node_modules

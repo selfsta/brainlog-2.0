@@ -16,15 +16,21 @@ const KEY = process.env.JWT_SECRET
 
 
 // CREATE controller ******************************************
-app.post ('/users', asyncHandler(async (req,res) => { 
-    const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(req.body.password, salt)
+app.post('/users', asyncHandler(async (req,res) => {
+    const {email, password} = req.body
+    const exists = await users.findByEmail(email)
+    if (exists) {
+        res.status(409).json({ error: 'User already exists' });
+    } else {
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(password, salt)
 
-    const user = await users.createUser(
-        req.body.email, 
-        hashedPassword
-        )
-    res.send(user);
+        const user = await users.createUser(
+            email, 
+            hashedPassword
+            )
+        res.send(user);
+    }
 }));
 
 // FILTER through the object using If Else syntax  ****************** 
@@ -42,17 +48,25 @@ function userFilter(req) {
 
 // RETRIEVE ****************************************************
 
+// Get user
+    app.get('/user:_id', asyncHandler(async (req,res) => { 
+    const filter = userFilter(req.params._id);
+    const result = await users.findUsers(filter)
+    res.send(result);
+}));
+
 // Login   
 app.post('/auth', asyncHandler( async (req,res) => { 
     const { email, password } = req.body
     const user =  await users.findByEmail(email)
 
     if(user != null && await bcrypt.compare(password, user.password)) {
+        const _id = user._id.toString()
         const token = jwt.sign({
-            id: user._id,
-            email: user.email,
+            id: _id,
+            email: user.email
         }, KEY)
-        res.status(200).json({token});
+        res.status(200).json({token, _id});
     } else {
         res.status(404).json({ Error: 'Requested user could not be found.' });
     }         

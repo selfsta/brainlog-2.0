@@ -13,7 +13,7 @@ const Login = () => {
             password: ''
         },
         validationSchema: yup.object({
-            email: yup.string().email("Not a valid email address").required("Required"),
+            email: yup.string().email("Not a valid email address").max(64,"Too many characters.").required("Required"),
             password: yup.string().required("Required")
         }),
         onSubmit: async (values) => {
@@ -25,19 +25,21 @@ const Login = () => {
                         'Content-Type': 'application/json',
                     },
                 });
+
                 if(response.status == 200){
+                    const {token, _id} = await response.json()
                     signIn({
-                        token: await response.json().then(json => json.token),
+                        token: token,
                         expiresIn: 3600,
                         tokenType: "Bearer",
-                        authState: {email: values.email}
+                        authState: {email: values.email, _id: _id}
                     })
                     redirect("/")
                 } else {
                     alert(`Incorrect user or password.`);
                 }
             } catch (error) {
-                alert(`Error: ${response.status}`);
+                alert('Something went wrong');
             }
         }
     })
@@ -51,7 +53,7 @@ const Login = () => {
                 id="email"
                 name="email"
                 type="email"
-                pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/"
+                pattern="[\-a-zA-Z0-9~!$%^&amp;*_=+\}\{'?]+(\.[\-a-zA-Z0-9~!$%^&amp;*_=+\}\{'?]+)*@[a-zA-Z0-9_][\-a-zA-Z0-9_]*(\.[\-a-zA-Z0-9_]+)*\.[cC][oO][mM](:[0-9]{1,5})?" 
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}

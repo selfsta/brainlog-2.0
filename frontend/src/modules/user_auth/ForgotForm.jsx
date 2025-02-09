@@ -10,7 +10,7 @@ const ForgotForm = () => {
             email: '',
         },
         validationSchema: yup.object({
-            email: yup.string().email("Not a valid email address").required("Required")
+            email: yup.string().email("Not a valid email address").max(64,"Too many characters.").required("Required")
         }),
         onSubmit: async (values) => {
             try {
@@ -42,7 +42,7 @@ const ForgotForm = () => {
                 id="email"
                 name="email"
                 type="email"
-                pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/"
+                pattern="[\-a-zA-Z0-9~!$%^&amp;*_=+\}\{'?]+(\.[\-a-zA-Z0-9~!$%^&amp;*_=+\}\{'?]+)*@[a-zA-Z0-9_][\-a-zA-Z0-9_]*(\.[\-a-zA-Z0-9_]+)*\.[cC][oO][mM](:[0-9]{1,5})?" 
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
