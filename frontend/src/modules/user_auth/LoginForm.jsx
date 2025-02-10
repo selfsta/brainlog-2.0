@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import { useNavigate } from "react-router-dom";
 import { useSignIn } from 'react-auth-kit';
 
-const Login = () => {
+const Login = ({setUser}) => {
     const redirect = useNavigate();
     const signIn = useSignIn();
     const formik = useFormik({
@@ -25,16 +25,16 @@ const Login = () => {
                         'Content-Type': 'application/json',
                     },
                 });
-
                 if(response.status == 200){
-                    const {token, _id} = await response.json()
+                    const res = await response.json()
                     signIn({
-                        token: token,
-                        expiresIn: 3600,
+                        token: res.token,
+                        expiresIn: 30,
                         tokenType: "Bearer",
-                        authState: {email: values.email, _id: _id}
+                        authState: {email: values.email, _id: res._id}
                     })
                     redirect("/")
+                    setUser([res._id, res._name])
                 } else {
                     alert(`Incorrect user or password.`);
                 }
@@ -53,7 +53,8 @@ const Login = () => {
                 id="email"
                 name="email"
                 type="email"
-                pattern="[\-a-zA-Z0-9~!$%^&amp;*_=+\}\{'?]+(\.[\-a-zA-Z0-9~!$%^&amp;*_=+\}\{'?]+)*@[a-zA-Z0-9_][\-a-zA-Z0-9_]*(\.[\-a-zA-Z0-9_]+)*\.[cC][oO][mM](:[0-9]{1,5})?" 
+                pattern="[\-a-zA-Z0-9~!$%^&amp;*_=+\}\{'?]+(\.[\-a-zA-Z0-9~!$%^&amp;*_=+\}\{'?]+)*@[a-zA-Z0-9_][\-a-zA-Z0-9_]*(\.[\-a-zA-Z0-9_]+)*\.[cC][oO][mM](:[0-9]{1,5})?"
+                autoComplete="on" 
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}

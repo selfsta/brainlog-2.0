@@ -1,53 +1,47 @@
-import React, { use } from 'react';
-import { Routes, Route, useNavigate} from 'react-router-dom';
-import { RequireAuth, useSignOut } from 'react-auth-kit';
+import { React, useState } from 'react';
+import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { RequireAuth } from 'react-auth-kit';
 
 import './App.css';
 import EntryForm from './modules/entry/EntryForm';
 import Register from './modules/user_auth/Register'
 import Login from './modules/user_auth/Login';
 import Forgot from './modules/user_auth/Forgot';
+import FooterLinks from './modules/homepage/FooterLinks';
+import Nav from './modules/homepage/Nav';
 
 function App() {
-  const _token = document.cookie;
-  let _u_ID = ''
-  if (_token) {
-    _u_ID = _token.match(/%22_id%22:%22([\da-f]+)%22/)[1];
-  }
+  const [user, setUser] = useState([])
+  const [_u_ID, _name] = user.length > 0 ? [user[0], user[1]] : ['', '']
   
-  const signOut = useSignOut()
-  const redirect = useNavigate()
-  const logOut = () => {
-    signOut();
-    redirect('/')
-  }
+  const location = useLocation()
+  const active = location.pathname
+
   return (
     <>
       <header>
-      <h1>BrainLog</h1>
+      <Link to="/"><h1>BrainLog</h1></Link>
+      {_u_ID === '' ? <p>Easily log your daily mental well-being and track your daily progress.</p> : <Nav active={active}/>}
+      
       </header>
             <main>
                 <section>
                     <Routes>
                       <Route path={'/'} element={
                         <RequireAuth loginPath={'/login'}>
-                          <EntryForm _u_ID={_u_ID} />
+                          <EntryForm _u_ID={_u_ID} _name={_name} />
                         </RequireAuth>
                       }/>
                       <Route path="/register" element={<Register/>}></Route>
-                      <Route path="/login" element={<Login/>}></Route>
+                      <Route path="/login" element={<Login setUser={setUser} />}></Route>
                       <Route path="/forgot" element={<Forgot/>}></Route>
                     </Routes>
                 </section>
             </main>
       <footer>
-      <p>BrainLog</p>
-          <a href="/">Home</a>
-          <a href="/register">Register</a>
-          <a href="/login">Login</a>
-          <a href="/forgot">Forgot Password</a>
-          <button onClick={logOut}>Sign Out</button>
-          <p>&copy; Selfsta {new Date().getFullYear()}</p> 
+        <p>BrainLog</p>
+        <FooterLinks logged={_u_ID} setUser={setUser}/>
+        <p>&copy; Selfsta {new Date().getFullYear()}</p> 
       </footer>
     </>
   )

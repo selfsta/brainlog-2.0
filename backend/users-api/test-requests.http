@@ -1,10 +1,10 @@
 ### CREATE five documents.
-POST http://localhost:3000/register HTTP/1.1
+POST http://localhost:3000/auth HTTP/1.1
 content-type: application/json
 
 {
-    "email": "user@email.com",
-    "password": "cc8_dj4JAS"
+    "email": "test_user@mail.com",
+    "password": "1234567890"
 }
 
 

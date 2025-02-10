@@ -1,13 +1,21 @@
 import { React, useState } from 'react';
-import faces from '../../assets/faces.png';
-import { useFormik } from 'formik';
 import { useNavigate } from "react-router-dom";
+import { useFormik } from 'formik';
 import * as yup from 'yup';
+import faces from '../../assets/faces.png';
+import TipsContainer from './TipsContainer';
 
 
-const EntryForm = (props) => {
+const EntryForm = ({_u_ID, _name}) => {
     const [show, setShow] = useState()
     const redirect = useNavigate();
+
+    const tips = {
+        wb: 'On a scale ranging from 0 to 100, with 0 representing the worst day of your life and 100 representing the best.',
+        em: 'These are the basic emotions, as per the Gottman Wheel of Emotions. Combinations and varying intensities of these give rise to more intricate emotions.',
+        sp: 'Sleep quality can be a factor impacting mood and mental wellbeing.',
+        jr: 'Sometimes, writing down potential causes of our emotions can aid in understanding them and developing effective strategies for managing them.'
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -15,7 +23,7 @@ const EntryForm = (props) => {
             emotions: [],
             sleep: '',
             journal: '',
-            _u_ID: props._u_ID
+            _u_ID: _u_ID
         },
         validationSchema: yup.object({
             wellbeing: yup.number().max(100, "Invalid range").required("Please make a selection"),
@@ -47,7 +55,8 @@ const EntryForm = (props) => {
     })
     
   return (
-    <>
+    <>  
+        <h2>Welcome back {_name}</h2>
         <form onSubmit={formik.handleSubmit}>
 
             <label 
@@ -55,7 +64,7 @@ const EntryForm = (props) => {
             onClick={() => setShow(show === 'wb' ? '' : 'wb')}
             >How would you rate your overall wellbeing today?</label>
             {formik.touched.wellbeing && formik.errors.wellbeing ? <p>{formik.errors.wellbeing}</p> : null}
-            {show === 'wb' ? <p>On a scale ranging from 0 to 100, with 0 representing the worst day of your life and 100 representing the best.</p> : null}
+            {show === 'wb' ? <TipsContainer tip={tips[show]}/> : null}
             <div className='faces-container'>
                 <img id='faces' src={faces}/>
             </div>
@@ -76,7 +85,7 @@ const EntryForm = (props) => {
             onClick={() => setShow(show === 'em' ? '' : 'em')}
             >Choose up to three emotions that you feel the most strongly.</label>
             {formik.touched.emotions && formik.errors.emotions ? <p>{formik.errors.emotions}</p> : null}
-            {show === 'em' ? <p>These are the basic emotions, as per the Gottman Wheel of Emotions. Combinations and varying intensities of these give rise to more intricate emotions. </p> : null}
+            {show === 'em' ? <TipsContainer tip={tips[show]}/> : null}
             <input
             id='joy'
             name="emotions"
@@ -130,7 +139,7 @@ const EntryForm = (props) => {
             onClick={() => setShow(show === 'sp' ? '' : 'sp')}
             >How did you sleep last night?</label>
             {formik.touched.sleep && formik.errors.sleep ? <p>{formik.errors.sleep}</p> : null}
-            {show === 'sp' ? <p>Sleep quality can be a factor impacting mood and mental wellbeing.</p> : null}
+            {show === 'sp' ? <TipsContainer tip={tips[show]}/> : null}
             <select 
             id="sleep" 
             name='sleep' 
@@ -149,7 +158,7 @@ const EntryForm = (props) => {
             onClick={() => setShow(show === 'jr' ? '' : 'jr')}
             >Use this space to write down anything that might be on your mind today.</label>
             {formik.touched.journal && formik.errors.journal ? <p>{formik.errors.journal}</p> : null}
-            {show === 'jr' ? <p>Sometimes, writing down potential causes of our emotions can aid in understanding them and developing effective strategies for managing them.</p> : null}
+            {show === 'jr' ? <TipsContainer tip={tips[show]}/> : null}
             <textarea 
             id="journal" 
             name="journal"

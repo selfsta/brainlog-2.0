@@ -1,6 +1,7 @@
 // Import dependencies.
 import mongoose from 'mongoose';
 import 'dotenv/config';
+import { v1 as uuidv1 } from 'uuid';
 
 mongoose.set('strictQuery', false);
 
@@ -19,25 +20,26 @@ db.once("open", () => {
 
 
 // Define the collection's schema.
-const userSchema = mongoose.Schema({
-	name: { type: String, required: true },
+const resetSchema = mongoose.Schema({
 	email: { type: String, required: true },
-	password: { type: String, required: true }
+	code: { type: String, required: true },
+	expires: { type: Date, required: true },
 });
 
 // Compile the model from the schema.
-const User = mongoose.model("User", userSchema);
+const Reset = mongoose.model("Reset", resetSchema);
 
 
 
 // CREATE model *****************************************
-const createUser = async (name, email, password) => {
-    const user = new User({ 
-        name: name,
+const createReset = async (email) => {
+    newCode = uuidv1().slice(0, 5)
+    const userReset = new Reset({ 
         email: email,
-        password: password 
+        code: newCode,
+        expires: new Date(new Date.getTime() + 10 * 60000);
     });
-    return user.save();
+    return userReset.save();
 }
 
 // RETRIEVE models *****************************************
@@ -45,21 +47,13 @@ const createUser = async (name, email, password) => {
 
 // Retrieve based on email and return a promise.
 const findByEmail = async (email) => {
-    return await User.findOne({email: email})
+    return await Reset.findOne({email: email})
 }
 
-// Retrieve based on a filter and return a promise.
-const findUsers = async (filter) => {
-    return await User.findOne(filter);
+// Retrieve based on email and return a promise.
+const findByID = async (ID) => {
+    return await Reset.findOne({_id: ID})
 }
-
-// Retrieve based on the ID and return a promise.
-const findById = async (_id) => {
-    const query = User.findById(_id);
-    return query.exec();
-}
-
-
 
 // DELETE models  *****************************************
 // Delete based on the ID.
@@ -85,4 +79,4 @@ const updateUser = async (filter, update) => {
 
 
 // Export our variables for use in the controller file.
-export { createUser, findUsers, findById, updateUser, deleteById, deleteByProperty, findByEmail }
+export { createReset, findByEmail, findByID }

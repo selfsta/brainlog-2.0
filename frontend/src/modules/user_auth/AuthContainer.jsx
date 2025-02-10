@@ -1,10 +1,10 @@
 import React from 'react'
 
-const AuthContainer = (props) => {
+const AuthContainer = ({title, children}) => {
   return (
     <section className='authContainer'>
-        <h3>{props.title}</h3>
-        {props.children}
+        <h3>{title}</h3>
+        {children}
     </section>
   )
 }

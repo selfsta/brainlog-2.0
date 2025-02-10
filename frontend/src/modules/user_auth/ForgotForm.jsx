@@ -14,7 +14,7 @@ const ForgotForm = () => {
         }),
         onSubmit: async (values) => {
             try {
-                const response = await fetch('/users', {
+                const response = await fetch('/forgot', {
                     method: 'post',
                     body: JSON.stringify(values),
                     headers: {
@@ -22,7 +22,7 @@ const ForgotForm = () => {
                     },
                 });
                 if(response.status === 200){
-                    alert(`Account Created`);
+                    alert(`Email Sent`);
                     redirect("/");
                 } else {
                     alert(`Something went wrong = ${response.status}`);

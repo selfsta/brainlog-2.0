@@ -7,10 +7,12 @@ const RegistrationForm = () => {
     const redirect = useNavigate();
     const formik = useFormik({
         initialValues: {
+            name: '',
             email: '',
             password: ''
         },
         validationSchema: yup.object({
+            name: yup.string().max(64,"Too many characters.").required("Required"),
             email: yup.string().email("Not a valid email address").max(64,"Too many characters.").required("Required"),
             password: yup.string().min(8, "Password must cointain at least 8 characters").max(20, "20 character max").required("Required")
         }),
@@ -39,6 +41,17 @@ const RegistrationForm = () => {
     return (
         <>
             <form onSubmit={formik.handleSubmit}>
+                <label htmlFor='name'>Name</label>
+                {formik.touched.name && formik.errors.name ? <p>{formik.errors.name}</p> : null}
+                <input 
+                id="name"
+                name="name"
+                type="text"
+                value={formik.values.name}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                />
+
                 <label htmlFor='email'>Email</label>
                 {formik.touched.email && formik.errors.email ? <p>{formik.errors.email}</p> : null}
                 <input 
