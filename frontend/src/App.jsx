@@ -9,6 +9,8 @@ import Forgot from './modules/user_auth/Forgot';
 import FooterLinks from './modules/homepage/FooterLinks';
 import Nav from './modules/homepage/Nav';
 import EntryContainer from './modules/entry/EntryContainer';
+import DashboardPage from './modules/dashboard/DashboardPage';
+import HelpPage from './modules/help/HelpPage';
 
 function App() {
   const [user, setUser] = useState([])
@@ -32,9 +34,15 @@ function App() {
                           <EntryContainer _u_ID={_u_ID} _name={_name} />
                         </RequireAuth>
                       }/>
+                      <Route path={'/dashboard'} element={
+                        <RequireAuth loginPath={'/login'}>
+                          <DashboardPage/>
+                        </RequireAuth>
+                      }/>
                       <Route path="/register" element={<Register/>}></Route>
                       <Route path="/login" element={<Login setUser={setUser} />}></Route>
                       <Route path="/forgot" element={<Forgot/>}></Route>
+                      <Route path="/help" element={<HelpPage/>}></Route>
                     </Routes>
                 </section>
             </main>

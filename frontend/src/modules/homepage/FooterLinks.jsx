@@ -12,8 +12,8 @@ const FooterLinks = ({logged, setUser}) => {
   ]
   const loggedInLinks = [
     ['Home', '/'],
-    ['Dashboard', '/'],
-    //['Help', '/help']
+    ['Dashboard', '/dashboard'],
+    ['Help', '/help']
   ]
   
     const signOut = useSignOut()

@@ -47,6 +47,7 @@ const RegistrationForm = () => {
                 id="name"
                 name="name"
                 type="text"
+                placeholder='Name'
                 value={formik.values.name}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}

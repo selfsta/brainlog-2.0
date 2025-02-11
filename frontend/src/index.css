@@ -100,12 +100,19 @@ input::placeholder {
 .under-auth a:hover{
   color: #345e22;
 }
-.entryContainer{
+.page-container{
   background-color: #f7fff3;
   width: 100%;
   border-radius: 35px;
   margin: 3em auto;
   padding: 3em 0;
+}
+.p-info{
+  font-size: 30px;
+  text-align: justify;
+  text-justify: inter-word;
+  font-weight: bold;
+  margin: 1em;
 }
 .entry-form {
   font-size: larger;
@@ -266,6 +273,8 @@ justify-content: center;}
 }
 .form-tip {
   background-color: #345e22;
+  font-size: 30px;
+  font-weight: bold;
   font-weight: bold;
   width: 70%;
   margin: 0 auto;

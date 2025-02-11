@@ -33,23 +33,25 @@ const EntryForm = ({_u_ID, _name}) => {
             _u_ID: yup.string().required()
         }),
         onSubmit: async (values) => {
-            try {
-                const response = await fetch('/entry', {
-                    method: 'POST',
-                    body: JSON.stringify(values),
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-                if(response.status == 200){
-                    alert(`Successfully logged entry.`);
-                    redirect('/')
-                } else {
-                    const res = await response.json()
-                    alert(`${res.error}: ${response.status}`);
+            if(window.confirm('Submit Entry? You can submit only one entry per day.')){
+                try {
+                    const response = await fetch('/entry', {
+                        method: 'POST',
+                        body: JSON.stringify(values),
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+                    if(response.status == 200){
+                        alert(`Successfully logged entry.`);
+                        redirect('/')
+                    } else {
+                        const res = await response.json()
+                        alert(`${res.error}: ${response.status}`);
+                    }
+                } catch (error) {
+                    alert(`Error: ${error}`);
                 }
-            } catch (error) {
-                alert(`Error: ${error}`);
             }
         }
     })
