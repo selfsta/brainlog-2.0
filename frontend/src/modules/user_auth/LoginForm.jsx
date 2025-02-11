@@ -29,7 +29,7 @@ const Login = ({setUser}) => {
                     const res = await response.json()
                     signIn({
                         token: res.token,
-                        expiresIn: 30,
+                        expiresIn: 3600,
                         tokenType: "Bearer",
                         authState: {email: values.email, _id: res._id}
                     })
@@ -46,8 +46,8 @@ const Login = ({setUser}) => {
 
     return (
         <>
-            <form onSubmit={formik.handleSubmit}>
-                <label htmlFor='email'>Email</label>
+            <form className='auth-form' onSubmit={formik.handleSubmit}>
+                <label htmlFor='email'>E-mail</label>
                 {formik.touched.email && formik.errors.email ? <p>{formik.errors.email}</p> : null}
                 <input 
                 id="email"
@@ -55,6 +55,7 @@ const Login = ({setUser}) => {
                 type="email"
                 pattern="[\-a-zA-Z0-9~!$%^&amp;*_=+\}\{'?]+(\.[\-a-zA-Z0-9~!$%^&amp;*_=+\}\{'?]+)*@[a-zA-Z0-9_][\-a-zA-Z0-9_]*(\.[\-a-zA-Z0-9_]+)*\.[cC][oO][mM](:[0-9]{1,5})?"
                 autoComplete="on" 
+                placeholder='user@email.com'
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -66,6 +67,7 @@ const Login = ({setUser}) => {
                 id="password"
                 name="password"
                 type="password"
+                placeholder='Password'
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}

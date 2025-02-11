@@ -3,12 +3,12 @@ import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import { RequireAuth } from 'react-auth-kit';
 
 import './App.css';
-import EntryForm from './modules/entry/EntryForm';
 import Register from './modules/user_auth/Register'
 import Login from './modules/user_auth/Login';
 import Forgot from './modules/user_auth/Forgot';
 import FooterLinks from './modules/homepage/FooterLinks';
 import Nav from './modules/homepage/Nav';
+import EntryContainer from './modules/entry/EntryContainer';
 
 function App() {
   const [user, setUser] = useState([])
@@ -20,8 +20,8 @@ function App() {
   return (
     <>
       <header>
-      <Link to="/"><h1>BrainLog</h1></Link>
-      {_u_ID === '' ? <p>Easily log your daily mental well-being and track your daily progress.</p> : <Nav active={active}/>}
+      <Link to="/" className={_u_ID === '' ? 'big-logo' : 'main-logo'}><h1>BrainLog</h1></Link>
+      {_u_ID === '' ? <p className='subheading'>Easily log your daily mental well-being and track your daily progress.</p> : <Nav active={active}/>}
       
       </header>
             <main>
@@ -29,7 +29,7 @@ function App() {
                     <Routes>
                       <Route path={'/'} element={
                         <RequireAuth loginPath={'/login'}>
-                          <EntryForm _u_ID={_u_ID} _name={_name} />
+                          <EntryContainer _u_ID={_u_ID} _name={_name} />
                         </RequireAuth>
                       }/>
                       <Route path="/register" element={<Register/>}></Route>
@@ -38,10 +38,10 @@ function App() {
                     </Routes>
                 </section>
             </main>
-      <footer>
-        <p>BrainLog</p>
+      <footer className='footer_section'>
+        <Link to="/"><p className='ft-logo'>BrainLog</p></Link>
         <FooterLinks logged={_u_ID} setUser={setUser}/>
-        <p>&copy; Selfsta {new Date().getFullYear()}</p> 
+        <p className="copy">&copy; Selfsta {new Date().getFullYear()}</p> 
       </footer>
     </>
   )

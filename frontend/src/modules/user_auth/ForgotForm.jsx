@@ -35,14 +35,15 @@ const ForgotForm = () => {
 
     return (
         <>
-            <form onSubmit={formik.handleSubmit}>
-                <label htmlFor='email'>Email</label>
+            <form className='auth-form' onSubmit={formik.handleSubmit}>
+                <label htmlFor='email'>E-mail</label>
                 {formik.touched.email && formik.errors.email ? <p>{formik.errors.email}</p> : null}
                 <input 
                 id="email"
                 name="email"
                 type="email"
                 pattern="[\-a-zA-Z0-9~!$%^&amp;*_=+\}\{'?]+(\.[\-a-zA-Z0-9~!$%^&amp;*_=+\}\{'?]+)*@[a-zA-Z0-9_][\-a-zA-Z0-9_]*(\.[\-a-zA-Z0-9_]+)*\.[cC][oO][mM](:[0-9]{1,5})?" 
+                placeholder='user@email.com'
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}

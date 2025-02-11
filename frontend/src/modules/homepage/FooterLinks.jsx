@@ -12,8 +12,8 @@ const FooterLinks = ({logged, setUser}) => {
   ]
   const loggedInLinks = [
     ['Home', '/'],
-    ['Dashboard', '/dashboard'],
-    ['Help', '/help']
+    ['Dashboard', '/'],
+    //['Help', '/help']
   ]
   
     const signOut = useSignOut()
@@ -29,7 +29,14 @@ const FooterLinks = ({logged, setUser}) => {
 
   return (
     <>
-      {Links.map(link => <Link className='footer-link' to={link[1]} key={link[0]}>{link[0]}</Link>)}
+      {Links.map(link => (
+        <>
+          <Link className='footer-link' to={link[1]} key={link[0]}>
+            {link[0]}
+          </Link>
+          <p className='separator'>|</p>
+        </>
+      ))}
       {logged === '' ? null : <Link className='footer-link' to='#' onClick={logOut}>Sign Out</Link>}
     </>
   )

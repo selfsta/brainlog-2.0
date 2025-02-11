@@ -56,8 +56,8 @@ const EntryForm = ({_u_ID, _name}) => {
     
   return (
     <>  
-        <h2>Welcome back {_name}</h2>
-        <form onSubmit={formik.handleSubmit}>
+        <h2 className="page-title">Welcome back {_name}!</h2>
+        <form className='entry-form' onSubmit={formik.handleSubmit}>
 
             <label 
             htmlFor='wellbeing'
@@ -72,6 +72,7 @@ const EntryForm = ({_u_ID, _name}) => {
             id="wellbeing"
             name="wellbeing"
             type="range"
+            className="wb-slider"
             min='0' 
             max='100' 
             step='10'
@@ -86,55 +87,81 @@ const EntryForm = ({_u_ID, _name}) => {
             >Choose up to three emotions that you feel the most strongly.</label>
             {formik.touched.emotions && formik.errors.emotions ? <p>{formik.errors.emotions}</p> : null}
             {show === 'em' ? <TipsContainer tip={tips[show]}/> : null}
-            <input
-            id='joy'
-            name="emotions"
-            type="checkbox"
-            value="joy"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            />
-            <input 
-            id="love"
-            name="emotions"
-            type="checkbox"
-            value="love"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            />
-            <input 
-            id="fear"
-            name="emotions"
-            type="checkbox"
-            value="fear"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            />
-            <input 
-            id="sadness"
-            name="emotions"
-            type="checkbox"
-            value="sadness"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            />
-            <input 
-            id="anger"
-            name="emotions"
-            type="checkbox"
-            value="anger"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            />
-            <input 
-            id="surprise"
-            name="emotions"
-            type="checkbox"
-            value="surprise"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            />
+            
+            <div className='em-col'>
+                <div className='emotion-cb'>
+                    <input
+                    id='joy'
+                    name="emotions"
+                    type="checkbox"
+                    value="joy"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    />
+                    <label htmlFor="joy">Joy</label>
+                </div>
 
+                <div className='emotion-cb'>
+                    <input 
+                    id="love"
+                    name="emotions"
+                    type="checkbox"
+                    value="love"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    />
+                    <label htmlFor="love">Love</label>
+                </div>
+
+                <div className='emotion-cb'>
+                    <input 
+                    id="fear"
+                    name="emotions"
+                    type="checkbox"
+                    value="fear"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    />
+                    <label htmlFor="fear">Fear</label>
+                </div>
+
+                <div className='emotion-cb'>
+                    <input 
+                    id="sadness"
+                    name="emotions"
+                    type="checkbox"
+                    value="sadness"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    />
+                    <label htmlFor="sadness">Sadness</label>
+                </div>
+
+                <div className='emotion-cb'>
+                    <input 
+                    id="anger"
+                    name="emotions"
+                    type="checkbox"
+                    value="anger"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    />
+                    <label htmlFor="anger">Anger</label>
+                </div>
+
+                <div className='emotion-cb'>
+                    <input 
+                    id="surprise"
+                    name="emotions"
+                    type="checkbox"
+                    value="surprise"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    />
+                    <label htmlFor="surprise">Suprise</label>
+                </div>
+            </div>
+            
             <label htmlFor="sleep"
             onClick={() => setShow(show === 'sp' ? '' : 'sp')}
             >How did you sleep last night?</label>
@@ -146,6 +173,7 @@ const EntryForm = ({_u_ID, _name}) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             >
+                <option value="" selected disabled hidden>Select one</option>
                 <option value="100">Excellent</option>
                 <option value="80">Great</option>
                 <option value="60">Good</option>
@@ -165,6 +193,7 @@ const EntryForm = ({_u_ID, _name}) => {
             cols='50' 
             rows='5' 
             maxLength='300'
+            placeholder='300 character max.'
             value={formik.values.journal}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
