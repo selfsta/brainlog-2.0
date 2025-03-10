@@ -29,7 +29,7 @@ const Login = ({setUser}) => {
                     const res = await response.json()
                     signIn({
                         token: res.token,
-                        expiresIn: 3600,
+                        expiresIn: 60,
                         tokenType: "Bearer",
                         authState: {email: values.email, _id: res._id}
                     })

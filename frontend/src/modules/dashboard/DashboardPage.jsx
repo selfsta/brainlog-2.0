@@ -1,10 +1,13 @@
 import React from 'react'
+import Quote from '../quotes/Quote'
+import WeeklyDigest from './WeeklyDigest'
 
-const DashboardPage = () => {
+const DashboardPage = ({_u_ID}) => {
   return (
     <div className='page-container'>
       <h2 className='page-title'>Dashboard</h2>
-      <p className='p-info'> Coming Soon.</p>
+      <Quote/>
+    <WeeklyDigest id={_u_ID}/>
     </div>
   )
 }

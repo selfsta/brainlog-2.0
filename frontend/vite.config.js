@@ -9,7 +9,8 @@ export default defineConfig({
     '/users': { target: 'http://localhost:3000' },
     '/auth': { target: 'http://localhost:3000' },
     '/forgot': { target: 'http://localhost:3000' },
-    '/entry': { target: 'http://localhost:3001' }
+    '/entry': { target: 'http://localhost:3001' },
+    '/quote': { target: 'http://localhost:3002' }
     }
   }
 })

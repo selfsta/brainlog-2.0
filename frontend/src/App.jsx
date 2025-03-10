@@ -36,7 +36,7 @@ function App() {
                       }/>
                       <Route path={'/dashboard'} element={
                         <RequireAuth loginPath={'/login'}>
-                          <DashboardPage/>
+                          <DashboardPage _u_ID={_u_ID}/>
                         </RequireAuth>
                       }/>
                       <Route path="/register" element={<Register/>}></Route>

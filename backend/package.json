@@ -1,0 +1,13 @@
+{  "scripts": {
+  "_users": "npm --prefix ./users-api/ start",
+  "_entries": "npm --prefix ./entries-microservice/ start",
+  "_quotes": "npm --prefix ./quote-microservice/ start",
+  "start": "npm run _users & npm run _entries & npm run _quotes"
+  },
+  "dependencies": {
+    "csv": "^6.3.11",
+    "line-reader": "^0.4.0",
+    "nodemon": "^3.1.9",
+    "zeromq": "^6.3.0"
+  }
+}

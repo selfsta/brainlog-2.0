@@ -14,7 +14,7 @@ const db = mongoose.connection;
 // Confirm that the database has connected 
 // and print a message in the console.
 db.once("open", () => {
-    console.log("Successfully connected to MongoDB using Mongoose!");
+    console.log('Successfully connected to "Users" using Mongoose!');
 });
 
 

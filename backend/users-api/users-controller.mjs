@@ -207,5 +207,5 @@ app.get('/update', (req, res) => {
 
 
 app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}...`);
+    console.log(`User server listening on port ${PORT}...`);
 });

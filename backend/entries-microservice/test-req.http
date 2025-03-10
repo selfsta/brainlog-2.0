@@ -1,0 +1,2 @@
+### Retrieve
+GET http://localhost:3001/entry/67a83357f95db21aed85e3f9/7 HTTP/1.1

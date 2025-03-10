@@ -10,3 +10,4 @@ backend/pw-reset-api/test-requests.http
 frontend/.env
 frontend/node_modules
 .gitignore
+backend/entries-microservice/.env
