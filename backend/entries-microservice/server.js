@@ -55,34 +55,20 @@ app.get('/entry/:id/:quantity', async (req, res) => {
 app.post('/entry', async (req, res) => {
   const { wellbeing, emotions, sleep, journal, _u_ID } = req.body;
   try {
-    // Check if user already submitted an entry today
-    const todayEntry = await Entry.findOne({_u_ID});
-    let hourDiff = 0
-    if (todayEntry.length == 0) {
-        hourDiff = 25
-    } else {
-        const today = new Date()
-        const lastEntry = latest[0].createdAt
-        hourDiff = Math.abs(today - lastEntry)  / (3600000);
-    }
-
-    if (hourDiff < 24.0) {
-        res.status(409).json({ error: "You can only post once per day. Try again later" });
-    } else {
       const newEntry = new Entry({
       wellbeing,
       emotions,
       sleep,
       journal,
       _u_ID,
-      _createdAt: new Date()
+      createdAt: new Date()
 
       });
       
       await newEntry.save();
       console.log('Entry successfully logged for user:', _u_ID);  
       res.status(200).json({ message: 'Entry successfully logged!' });    
-    }} catch (err) {
+    } catch (err) {
     console.error('Error saving entry:', err);  
     res.status(500).json({ error: 'Internal Server Error' });
   }
