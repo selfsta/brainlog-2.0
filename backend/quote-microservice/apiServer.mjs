@@ -24,4 +24,4 @@ app.get('/quote', async (req, res) => {
   }
 });
 
-app.listen(port, () => console.log(`API Server running on http://localhost:${port}`));
+app.listen(port, () => console.log(`Quote API Server running on http://localhost:${port}`));

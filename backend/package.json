@@ -2,7 +2,8 @@
   "_users": "npm --prefix ./users-api/ start",
   "_entries": "npm --prefix ./entries-microservice/ start",
   "_quotes": "npm --prefix ./quote-microservice/ start",
-  "start": "npm run _users & npm run _entries & npm run _quotes"
+  "_analysis": "npm --prefix ./emotion-analysis-microservice/ start",
+  "start": "npm run _users & npm run _entries & npm run _quotes & npm run _analysis"
   },
   "dependencies": {
     "csv": "^6.3.11",

@@ -1,15 +1,12 @@
-import {React, useState, useEffect} from 'react'
+import {React, useEffect} from 'react'
+import EntryCard from './EntryCard';
 
-
-const WeeklyDigest = ({id}) => {
-    const [entries, setEntries] = useState([]);
+const WeeklyDigest = ({id, entries, setEntries}) => {
     useEffect(() => {
         const fetchWeek = async (id, quantity) => {
             try {
               const response = await fetch(`/entry/${id}/${quantity}`)
               const data = await response.json();
-              console.log(typeof data)
-              console.log(data)
               setEntries(data)
             } catch (error) {
               console.error("Error fetching entries:", error);
@@ -20,16 +17,10 @@ const WeeklyDigest = ({id}) => {
         fetchWeek(id, 7);
       }, []);
   return (
-    <div>
+    <div className = "weekly-digest">
       {entries.map((entry) => (
-        <div key={entry.date}>
-          <p>Date: {new Date(entry.date).toLocaleDateString("en-US")}</p>
-          <p>Wellbeing: {entry.wellbeing}%</p>
-          <p>Sleep Quality: {entry.sleep}%</p>
-          <p>Emotions: {entry.emotions.join(", ")}</p>
-          <p>Comments: {entry.journal || "No comments"}</p>
-        </div>
-      ))}
+        <EntryCard entry={entry}/>      
+        ))}
     </div>
   )
 }

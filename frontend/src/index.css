@@ -36,6 +36,11 @@ header {
   font-family: 'League Spartan';
   color: #345e22;
 }
+.sub-title {
+  font-size: 30px;
+  font-family: 'League Spartan';
+  color: #345e22;
+}
 .authContainer{
   background-color: #f7fff3;
   width: 50%;
@@ -121,7 +126,6 @@ input::placeholder {
   font-size: 30px;
   font-weight: bold;
 }
-
 .entry-form button{
   margin: 1em;
   padding: 1em 1.5em;
@@ -148,7 +152,30 @@ input::placeholder {
   border: none;
   border-radius: 15px;
 }
-
+.entry-card {
+  color: #f7fff3;
+  width: 300px;
+  background-color:  #345e22;
+  border: solid 5px #7ed957;
+  border-radius: 25px;
+  margin: 1em auto;
+  padding: 2em 1em;
+}
+.entry-card button{
+  margin: .5em;
+  padding: 1em 1.5em;
+  font-family: 'League Spartan';
+  font-weight: bolder;
+  background-color:  #7ed957;
+  color: #345e22;
+  border: none;
+  border-radius: 15px;
+}
+.weekly-digest {
+  margin: 2em;
+  display: flex;
+  flex-wrap: wrap;
+}
 input::placeholder {
   font-size: 25px;
   font-family: 'Agrandir';
@@ -202,6 +229,11 @@ input::placeholder {
 .entry-form textarea::placeholder{
   color: #345e22;
 }
+.bolder-text {
+  font-family: 'League Spartan';
+  font-size: large;
+  font-weight: bolder;
+}
 .wb-slider {
   -webkit-appearance: none;
   appearance: none; 
@@ -210,7 +242,6 @@ input::placeholder {
   outline: none;
   border-radius: 16px;
 }
-
 /* Track: webkit browsers */
 .wb-slider::-webkit-slider-runnable-track {
   height: 20px;
@@ -313,6 +344,25 @@ input, textarea, label {
   display: block;
   justify-self: center;
 }
+.quote-container {
+  width: 45%;
+  height: 150px;
+  margin: auto;
+  padding: 1em;
+  font-size: 30px;
+  border: solid 5px #345e22;
+  border-radius: 25px;
+  background-size: cover;
+  background-color: rgba(0, 0, 0, 0.5);
+  background-blend-mode: multiply;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  text-shadow: 1px 1px 2px #000;
+}
+
 .layout_padding {
   padding: 75px 0;
 }
@@ -1030,6 +1080,26 @@ a:focus {
 .copy {
   margin-left: 7em;
 }
+/* Default width for large screens */
+.line-chart {
+  width: 1000px;
+  margin: 2em auto
+}
+
+/* Medium screens (max-width: 1000px) */
+@media (max-width: 1000px) {
+  .line-chart {
+    width: 600px; /* Adjust to 80% of the parent container */
+  }
+}
+
+/* Small screens (max-width: 600px) */
+@media (max-width: 600px) {
+  .line-chart {
+    width: 200px; /* Adjust to 95% for small screens */
+  }
+}
+
 /*
   dark green
   color: #345e22;

@@ -4,8 +4,8 @@ import readline from 'readline';
 
 const sock = new zmq.Reply();
 
-await sock.bind('tcp://*:3003').then(
-  console.log('"Quote" Server running on socket 3003') 
+await sock.bind('tcp://*:5550').then(
+  console.log('"Analysis" Server running on socket 5550') 
 )
 
 
@@ -26,6 +26,14 @@ async function loadDict(filePath) {
 }
 
 const combDict = await loadDict('./combinations.csv')
+// sort combDict in place
+Object.keys(combDict).forEach((key) => {
+  const sortedKey = key.split("").sort().join("");
+  if (sortedKey !== key) {
+    combDict[sortedKey] = combDict[key];
+    delete combDict[key];
+  }
+});
 
 while (true) {
   for await (const [msg] of sock) {

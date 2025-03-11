@@ -21,7 +21,7 @@ const entrySchema = new mongoose.Schema({
   sleep: { type: String, required: true },
   journal: { type: String, maxlength: 300 },
   _u_ID: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now },
+  createdAt: { type: Date, required: true},
 });
 
 const Entry = mongoose.model("Entry", entrySchema);
@@ -32,11 +32,17 @@ app.get('/entry/:id/:quantity', async (req, res) => {
   // Retrieve based on the ID and return a promise.
   const _id = req.params.id;
   const quantity = req.params.quantity;
-  const entries = await Entry.find({ _user: _id })
-  .sort({ date: -1 }) // Sort by date in descending order (most recent first)
-  .limit(parseInt(quantity)); // Limit the number of results
+  const entries = await Entry.find({ _u_ID: _id })
+  .sort({ createdAt: -1 }) // Sort by date in descending order (most recent first)
+  .limit(parseInt(quantity))
+  .lean();
+
+  entries.forEach(entry => {
+    if (entry.createdAt && entry.createdAt.$date) {
+      entry.createdAt = new Date(entry.createdAt.$date);
+    }
+  });
   if (entries.length > 0) {
-    console.log(entries)
     res.status(200).send(entries)
   } else {
     res.status(500).json({ error: 'Internal Server Error' });
@@ -48,34 +54,35 @@ app.get('/entry/:id/:quantity', async (req, res) => {
 // API endpoint to accept journal entries
 app.post('/entry', async (req, res) => {
   const { wellbeing, emotions, sleep, journal, _u_ID } = req.body;
-
-  console.log('Received data:', req.body);
   try {
     // Check if user already submitted an entry today
-    const todayEntry = await Entry.findOne({
-      _u_ID,
-      createdAt: { $gte: new Date().setHours(0, 0, 0, 0) }, // Today's date
-    });
+    const todayEntry = await Entry.findOne({_u_ID});
+    let hourDiff = 0
+    if (todayEntry.length == 0) {
+        hourDiff = 25
+    } else {
+        const today = new Date()
+        const lastEntry = latest[0].createdAt
+        hourDiff = Math.abs(today - lastEntry)  / (3600000);
+    }
 
-    /* if (todayEntry) {
-      console.log(`User ${_u_ID} has already submitted an entry today.`);
-      return res.status(400).json({ error: 'You can submit only one entry per day.' });
-    } */
-
-    const newEntry = new JournalEntry({
+    if (hourDiff < 24.0) {
+        res.status(409).json({ error: "You can only post once per day. Try again later" });
+    } else {
+      const newEntry = new Entry({
       wellbeing,
       emotions,
       sleep,
       journal,
       _u_ID,
-    });
+      _createdAt: new Date()
 
-    console.log('Saving new entry:', newEntry);  // Log the entry being saved
-
-    await newEntry.save();
-    console.log('Entry successfully logged for user:', _u_ID);  
-    res.status(200).json({ message: 'Entry successfully logged!' });
-  } catch (err) {
+      });
+      
+      await newEntry.save();
+      console.log('Entry successfully logged for user:', _u_ID);  
+      res.status(200).json({ message: 'Entry successfully logged!' });    
+    }} catch (err) {
     console.error('Error saving entry:', err);  
     res.status(500).json({ error: 'Internal Server Error' });
   }
